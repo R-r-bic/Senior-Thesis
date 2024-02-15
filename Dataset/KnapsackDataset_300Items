@@ -1,0 +1,36 @@
+import numpy as np
+import csv
+
+def create_knapsack(item_count=300, seed=None):
+    np.random.seed(seed)  # Set the seed value
+    x_weights = np.random.randint(1, 45, item_count)
+    x_prices = np.random.randint(1, 99, item_count)
+    x_capacity = np.random.randint(1, 99)
+    return x_weights, x_prices, x_capacity
+
+
+def create_knapsack_dataset(count, item_count=300, seed=None, normalize=False):
+    x1 = []
+    x2 = []
+    capacities = []  # List to save the knapsack capacities
+    for i in range(count):
+        x_weights, x_prices, x_capacity = create_knapsack(item_count, seed=seed+i)
+        if normalize:
+            x1.append(x_weights / x_capacity)
+            x2.append(x_prices / x_prices.max())
+        else:
+            x1.append(x_weights)
+            x2.append(x_prices)
+        capacities.append(x_capacity)   # Add capacity to the list
+
+        
+    return [np.array(x1), np.array(x2)], np.array(capacities)
+            
+def save_dataset_to_csv(x, capacities, filename):
+    with open(filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Weights', 'Prices', 'Capacity'])
+        for weights, prices, capacity in zip(x[0], x[1], capacities):
+            weights_str = ' '.join(map(str, weights))
+            prices_str = ' '.join(map(str, prices))
+            writer.writerow([weights_str, prices_str, capacity
