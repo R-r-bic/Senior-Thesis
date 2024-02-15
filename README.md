@@ -1,5 +1,5 @@
 # Senior-Thesis
-This repository contains Python code for a thesis on the comparative analysis of classical algorithms and neural networks in solving the knapsack problem
+This repository contains Python code for a thesis on the comparative analysis of classical algorithms and neural networks in solving the knapsack problem.
 
 ## Abstract
 In my senior thesis, I evaluated four distinct algorithms—Dynamic Programming, Approximation Scheme, Nemhauser-Ullmann Algorithm, and Neural Network Algorithms—for the knapsack problem by implementing them in Python 3.11.3 and comparing their execution times and solution accuracies.
