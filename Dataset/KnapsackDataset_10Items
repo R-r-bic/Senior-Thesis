@@ -2,17 +2,16 @@ import numpy as np
 import csv
 
 def create_knapsack(item_count=10, seed=None):
-    np.random.seed(seed)  # シード値の設定
+    np.random.seed(seed)  # Set seed value
     x_weights = np.random.randint(1, 45, item_count)
     x_prices = np.random.randint(1, 99, item_count)
     x_capacity = np.random.randint(1, 99)
     return x_weights, x_prices, x_capacity
 
-
 def create_knapsack_dataset(count, item_count=10, seed=None, normalize=False):
     x1 = []
     x2 = []
-    capacities = []  # ナップサックの容量を保存するリスト
+    capacities = []  # List to save knapsack capacities
     for i in range(count):
         x_weights, x_prices, x_capacity = create_knapsack(item_count, seed=seed+i)
         if normalize:
@@ -21,9 +20,8 @@ def create_knapsack_dataset(count, item_count=10, seed=None, normalize=False):
         else:
             x1.append(x_weights)
             x2.append(x_prices)
-        capacities.append(x_capacity)   # 容量をリストに追加
+        capacities.append(x_capacity)   # Add capacity to the list
 
-        
     return [np.array(x1), np.array(x2)], np.array(capacities)
             
 def save_dataset_to_csv(x, capacities, filename):
@@ -35,17 +33,16 @@ def save_dataset_to_csv(x, capacities, filename):
             prices_str = ' '.join(map(str, prices))
             writer.writerow([weights_str, prices_str, capacity])
 
-# データセットを生成
+# Generate the dataset
 x, capacities = create_knapsack_dataset(20, 10, seed=0, normalize=False)
 
-# データセットをCSVに保存
+# Save the dataset to CSV
 save_dataset_to_csv(x, capacities, 'knapsack_dataset.csv')
-
 
 def load_dataset_from_csv(filename):
     with open(filename, 'r') as file:
         reader = csv.reader(file)
-        next(reader)  # ヘッダー行をスキップ
+        next(reader)  # Skip the header row
         dataset = []
         for row in reader:
             weights = list(map(float, row[0].split()))
@@ -54,15 +51,13 @@ def load_dataset_from_csv(filename):
             dataset.append((weights, prices, capacity))
         return dataset
 
-# CSVからデータセットを読み込む
+# Load the dataset from CSV
 dataset = load_dataset_from_csv('knapsack_dataset.csv')
 
-
-
-# 生成されたデータセットを表示　　プラスで大きさは大丈夫か　　
+# Display the generated dataset
 for i in range(20):
-    print(f"インスタンス {i + 1}:")
-    print(f"重量: {x[0][i]}")
-    print(f"価値: {x[1][i]}")
-    print(f"容量: {capacities[i]}")
+    print(f"Instance {i + 1}:")
+    print(f"Weight: {x[0][i]}")
+    print(f"Value: {x[1][i]}")
+    print(f"Capacity: {capacities[i]}")
     print()
