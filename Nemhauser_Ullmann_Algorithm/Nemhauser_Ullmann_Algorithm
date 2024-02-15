@@ -1,1 +1,30 @@
+import time
+start_time = time.time()
+
+def nemhauser_ullmann_algorithm_fixed(items, W):
+    def w(S): return sum(items[i][1] for i in S)  # Weight function
+    def c(S): return sum(items[i][0] for i in S)  # Cost (value) function
+
+    # Initialize P[0] not as an empty set, but as a set containing the singleton sets of each item
+    P = [{frozenset()}]  # Change from [set()] to [{frozenset()}] for correct initialization
+    for j in range(len(items)):
+        # Add new item j as a singleton set to P_j_plus
+        P_j_plus = {frozenset(S | {j}) for S in P[-1] if w(S | {j}) <= W}
+        
+        # Combine P_j_minus_one and P_j_plus to obtain all subsets
+        all_subsets = list(P[-1] | P_j_plus)
+        all_subsets.sort(key=lambda S: (w(S), -c(S)))
+
+        # Keep only the non-dominated subsets
+        P_j = set()
+        for S in sorted(all_subsets, key=lambda S: (w(S), -c(S))):
+            if not any(w(S) >= w(T) and c(S) <= c(T) for T in P_j):
+                P_j.add(S)
+        
+        # Add the new set P_j
+        P.append(P_j)
+
+    # Choose the set with the maximum value from the final set
+    optimal_set = max((S for S in P[-1] if w(S) <= W), key=lambda S: c(S), default=set())
+    return optimal_set
 
