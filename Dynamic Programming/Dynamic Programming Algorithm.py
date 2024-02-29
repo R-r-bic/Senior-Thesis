@@ -34,7 +34,7 @@ def knapsack_dynamic_programming_fixed(weights, values, capacity):
     return selected_items
 
 
-from Dataset_generate_dynamic100 import load_dataset_from_csv
+from Dataset_generate_dynamic10 import load_dataset_from_csv
 
 # Load the dataset from a CSV file
 dataset = load_dataset_from_csv('knapsack_dataset.csv')
