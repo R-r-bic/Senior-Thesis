@@ -17,11 +17,11 @@ Within the range of instance sizes tested, the Nemhauser-Ullmann Algorithm consi
 
 | Number of items | Dynamic Programming | Nemhauser-Ullmann Algorithm |
 |-----------------|---------------------|----------------------------|
-| 10              | 0.0163              | 0.0185                     |
-| 100             | 0.2011              | 0.2891                     |
-| 300             | 1.6536              | 1.9724                     |
-| 500             | 4.7753              | 3.3932                     |
-| 1000            | 20.834              | 5.2586                     |
+|   10            |  0.0163              | 0.0185                     |
+|  100            |  0.2011              | 0.2891                     |
+|  300            |  1.6536              | 1.9724                     |
+|  500            |  4.7753              | 3.3932                     |
+| 1000            | 20.8344              | 5.2586                     |
 
 Table 1: Solution classes and execution times (seconds) for varying numbers of items
 
@@ -29,7 +29,7 @@ Table 1: Solution classes and execution times (seconds) for varying numbers of i
 
 | Price range   | Dynamic Programming | Nemhauser-Ullmann Algorithm |
 |---------------|---------------------|-----------------------------|
-| 1 ≤ ci ≤ 99   | 0.0163              | 0.0185                      |
+|   1 ≤ ci ≤ 99 | 0.0163              | 0.0185                      |
 | 100 ≤ ci ≤ 199| 0.5648              | 0.2382                      |
 | 200 ≤ ci ≤ 299| 0.9284              | 0.2399                      |
 | 300 ≤ ci ≤ 399| 1.3102              | 0.2364                      |
@@ -51,7 +51,7 @@ Table 3: Execution time and solution accuracy for 10 items*
 
 | Algorithm             | Execution Time (s) | Solution Accuracy |
 |-----------------------|--------------------|-------------------|
-| Approximation Schemes | 0.3835             | 1.00              |
+| Approximation Schemes |  0.3835            | 1.00              |
 | Neural Network        | 71.8500            | 0.87              |
 
 Table 4: Execution time and solution accuracy for 100 items*
