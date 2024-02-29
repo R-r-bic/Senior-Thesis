@@ -2,29 +2,62 @@ import time
 start_time = time.time()
 
 def nemhauser_ullmann_algorithm_fixed(items, W):
-    def w(S): return sum(items[i][1] for i in S)  # Weight function
-    def c(S): return sum(items[i][0] for i in S)  # Cost (value) function
+    def w(S): return sum(items[i][1] for i in S)
+    def c(S): return sum(items[i][0] for i in S)
 
-    # Initialize P[0] not as an empty set, but as a set containing the singleton sets of each item
+    # P[0]を空のセットではなく、各アイテムのシングルトンセットを含むセットとして初期化
     P = [{frozenset()}]  # Change from [set()] to [{frozenset()}] for correct initialization
     for j in range(len(items)):
-        # Add new item j as a singleton set to P_j_plus
+        # P_j_plusにシングルトンセットとして新しいアイテムjを追加
         P_j_plus = {frozenset(S | {j}) for S in P[-1] if w(S | {j}) <= W}
         
-        # Combine P_j_minus_one and P_j_plus to obtain all subsets
+        # P_j_minus_oneとP_j_plusを結合して全サブセットを得る
         all_subsets = list(P[-1] | P_j_plus)
         all_subsets.sort(key=lambda S: (w(S), -c(S)))
 
-        # Keep only the non-dominated subsets
+        # 支配されていないサブセットのみを保持
         P_j = set()
         for S in sorted(all_subsets, key=lambda S: (w(S), -c(S))):
             if not any(w(S) >= w(T) and c(S) <= c(T) for T in P_j):
                 P_j.add(S)
         
-        # Add the new set P_j
+        # 新しいセットP_jを追加
         P.append(P_j)
 
-    # Choose the set with the maximum value from the final set
+    # 最終的なセットの中から最大の価値を持つセットを選択
     optimal_set = max((S for S in P[-1] if w(S) <= W), key=lambda S: c(S), default=set())
     return optimal_set
 
+
+from Dataset_generate_dynamic10 import load_dataset_from_csv
+
+# CSVファイルからデータセットを読み込む
+dataset = load_dataset_from_csv('knapsack_dataset.csv')
+
+# セットの数
+num_sets = len(dataset)
+
+# 各ナップサック問題のインスタンスに対してアルゴリズムを適用
+for i, (weights, values, capacity) in enumerate(dataset):
+    # アイテムを (価値, 重量) の形式でリストに変換
+    items = list(zip(values, weights))
+    
+    # アルゴリズムの実行
+    solution = nemhauser_ullmann_algorithm_fixed(items, capacity)
+    sorted_solution = sorted(solution) 
+    
+    
+    print(f"インスタンス {i + 1} の解 (インデックス番号): {sorted_solution}")
+
+
+# 全体の実行終了時間を記録
+end_time = time.time()
+
+# 全体の実行時間を計算
+total_execution_time = end_time - start_time
+
+# 平均実行時間を計算
+average_execution_time = total_execution_time / num_sets
+
+# 平均実行時間の表示
+print("平均実行時間:", average_execution_time, "秒")
